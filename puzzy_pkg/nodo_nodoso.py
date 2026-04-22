@@ -17,7 +17,7 @@ class OdometryNode(Node):
         self.sub = self.create_subscription(Float32, "/VelocityEncR", self.wR_cb, qos.qos_profile_sensor_data)
         self.sub = self.create_subscription(Float32, "/VelocityEncL", self.wL_cb, qos.qos_profile_sensor_data)
 
-        self.pub = self.create_publisher(Twist, "/cmd_vel", 10)
+        self.pub = self.create_publisher(Twist, "/cmd_vel", 1)
 
         # Encoder readings
         #self.wR = 0.0  # Angular velocity of the right wheel
@@ -29,25 +29,28 @@ class OdometryNode(Node):
         self.msg_vel = Twist()
         self.msg_vel.linear.x = 0.5
         self.pub.publish(self.msg_vel)
+        self.msg_vel.linear.x = 0.0
 
     
     def wR_cb(self, msg):
         # Callback to update right wheel angular velocity
-        self.data_wR.append(msg.data)
+        if len(self.data_wR)<710:
+            self.data_wR.append(msg.data)
 
     def wL_cb(self, msg):
         # Callback to update left wheel angular velocity
-        self.data_wL.append(msg.data)
+        if len(self.data_wL)<710:
+            self.data_wL.append(msg.data)
 
     def timer_cb(self):
         print("ya pasaron 10 segundos")
-
-        W = np.column_stack((self.data_wL,self.data_wR))
-        
-
+        self.pub.publish(self.msg_vel)
 
         print(len(self.data_wR), "encoder derecho")
         print(len(self.data_wL), "encoder izquierdo")
+
+        W = np.column_stack((self.data_wL,self.data_wR))
+        
         self.destroy_node()
 
 
