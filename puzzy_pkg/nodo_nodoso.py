@@ -53,7 +53,7 @@ class OdometryNode(Node):
 
 
 
-        with open("salida.csv", "w", newline="", encoding="utf-8") as f:
+        with open("/home/rucardo/ros2_ws/src/puzzy_pkg/data/salida.csv", "w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
             writer.writerows(W)
         

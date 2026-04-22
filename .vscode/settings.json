@@ -1,0 +1,22 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/rucardo/ros2_ws/install/puzzy_pkg/lib/python3.10/site-packages",
+        "/home/rucardo/ros2_ws/install/robotica_movil/lib/python3.10/site-packages",
+        "/home/rucardo/ros2_ws/install/puzzlebot_sim/lib/python3.10/site-packages",
+        "/home/rucardo/ros2_ws/install/pruebosy/lib/python3.10/site-packages",
+        "/home/rucardo/ros2_ws/install/mimoy/lib/python3.10/site-packages",
+        "/home/rucardo/ros2_ws/install/learning_tf2/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/rucardo/ros2_ws/install/puzzy_pkg/lib/python3.10/site-packages",
+        "/home/rucardo/ros2_ws/install/robotica_movil/lib/python3.10/site-packages",
+        "/home/rucardo/ros2_ws/install/puzzlebot_sim/lib/python3.10/site-packages",
+        "/home/rucardo/ros2_ws/install/pruebosy/lib/python3.10/site-packages",
+        "/home/rucardo/ros2_ws/install/mimoy/lib/python3.10/site-packages",
+        "/home/rucardo/ros2_ws/install/learning_tf2/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}
