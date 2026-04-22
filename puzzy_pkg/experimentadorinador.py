@@ -23,8 +23,8 @@ class NodingNode(Node):
 
         # carpeta del archivo actual
         self.exp_num = 1
-        self.velocidades = [0.2, 0.5, 0.7, 0.9, 1.0]
         self.selected_vel = 0 # velocidad actual, va desde 0 hasta len(velocidades)-1
+        self.velocidades = [0.2, 0.5]
 
         dir_salida = Path.home() / "ros2_ws" / "src" / "puzzy_pkg" / f"data_{self.velocidades[self.selected_vel]}"
         dir_salida.mkdir(parents=True, exist_ok=True)
@@ -79,7 +79,7 @@ class NodingNode(Node):
             if self.exp_num <= 5:
                 self.state = "inicio"
                 self.next_state = False
-            else:
+            elif (self.selected_vel == len(self.velocidades)-1) and (self.exp_num>=5):
                 self.state = "acabo"
                 self.next_state = False
             
@@ -92,11 +92,11 @@ class NodingNode(Node):
 
 
         if self.state == "experimentanding": #inicia a recopilar datos del experimento
-            self.msg_vel.linear.x = 0.5
+            self.msg_vel.linear.x = self.velocidades[self.selected_vel]
             self.pub.publish(self.msg_vel)
 
             elapsed_t = time.time() - self.t0
-            print(f"Tiempo en experimento: {elapsed_t:.2f} s")
+            print(f"Tiempo en experimento: {elapsed_t:.2f} s", f" run #{self.exp_num}  de Velocidad {self.velocidades[self.selected_vel]}")
             #recompilando datos muy datosos y asi
             if elapsed_t >= 10:
                 print("ya pasaron 10 segundos")
@@ -117,10 +117,32 @@ class NodingNode(Node):
                 writer = csv.writer(f)
                 writer.writerows(W)
 
-            self.exp_num += 1
-            self.update_exit_dir()
-            time.sleep(4)
-            self.next_state = True
+            #self.exp_num += 1
+
+#            if self.selected_vel < len(self.velocidades)-1:
+#                if(self.exp_num >= 5):
+#                    self.exp_num = 1
+#                    self.selected_vel += 1
+#                else:
+#                    self.exp_num += 1
+#            
+#            self.update_exit_dir()
+#            time.sleep(4)
+#            self.next_state = True
+
+            if self.exp_num < 5:
+                self.exp_num += 1
+            else:
+                self.exp_num = 1
+                self.selected_vel += 1
+
+            # si ya no hay más velocidades, terminar
+            if self.selected_vel >= len(self.velocidades):
+                self.state = "acabo"
+                self.next_state = False
+            else:
+                self.update_exit_dir()
+                self.next_state = True
 
 
         if self.state == "acabo":
