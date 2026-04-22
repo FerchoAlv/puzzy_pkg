@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import rclpy, numpy as np, time
+import rclpy, numpy as np, time, csv
 from rclpy import qos
 from rclpy.node import Node
 from std_msgs.msg import Float32
@@ -50,6 +50,12 @@ class OdometryNode(Node):
         print(len(self.data_wL), "encoder izquierdo")
 
         W = np.column_stack((self.data_wL,self.data_wR))
+
+
+
+        with open("salida.csv", "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerows(W)
         
         self.destroy_node()
 
