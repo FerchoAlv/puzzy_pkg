@@ -47,13 +47,13 @@ class OdometryNode(Node):
         self.pub.publish(self.msg_vel)
 
         print(len(self.data_wR), "encoder derecho")
-        print(len(self.data_wL), "encoder izquierdo")
+        print(len(self.data_wL), "encoder izquierdo") 
 
         W = np.column_stack((self.data_wL,self.data_wR))
 
 
 
-        with open("/home/rucardo/ros2_ws/src/puzzy_pkg/data/salida.csv", "w", newline="", encoding="utf-8") as f:
+        with open("/home/rucardo/ros2_ws/src/data/salida.csv", "w", newline="", encoding="utf-8") as f: #/home/ferruco/ros2_ws/src/puzzy_pkg/data
             writer = csv.writer(f)
             writer.writerows(W)
         

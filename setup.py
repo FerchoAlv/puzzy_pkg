@@ -24,7 +24,9 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'nodo_nodoso = puzzy_pkg.nodo_nodoso:main'
+            'nodo_nodoso = puzzy_pkg.nodo_nodoso:main',
+            'prueboso = puzzy_pkg.prueboso:main',
+            'experimentadorinador = puzzy_pkg.experimentadorinador:main',
         ],
     },
 )
