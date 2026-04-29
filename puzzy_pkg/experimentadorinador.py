@@ -24,11 +24,12 @@ class NodingNode(Node):
         # carpeta del archivo actual
         self.exp_num = 1
         self.selected_vel = 0 # velocidad actual, va desde 0 hasta len(velocidades)-1
-        self.velocidades = [0.2, 0.5]
+        self.velocidades = [0.1, 0.2, 0.3, 0.4, 0.5]
 
-        dir_salida = Path.home() / "ros2_ws" / "src" / "puzzy_pkg" / f"data_{self.velocidades[self.selected_vel]}"
+        dir_salida = Path.home() / "ros2_ws" / "src" / "puzzy_pkg" / f"data_aire_{self.velocidades[self.selected_vel]}"
         dir_salida.mkdir(parents=True, exist_ok=True)
         self.ruta_salida = dir_salida / f"datos_{self.exp_num}.csv"
+        self.ruta_salida_cov = dir_salida / f"cov_{self.exp_num}.csv"
 
         self.data_wR = []
         self.data_wL = []
@@ -106,29 +107,17 @@ class NodingNode(Node):
 
 
         if self.state == "calculanding":
-            print("calculando calculos muy calculosos. . .")
-            print("ya acabe de calcular")
 
             print(len(self.data_wR), "encoder derecho")
             print(len(self.data_wL), "encoder izquierdo") 
 
             W = np.column_stack((self.data_wL,self.data_wR))
+
+            cov_matrix = np.cov(W)
+
             with open(self.ruta_salida, "w", newline="", encoding="utf-8") as f: 
                 writer = csv.writer(f)
                 writer.writerows(W)
-
-            #self.exp_num += 1
-
-#            if self.selected_vel < len(self.velocidades)-1:
-#                if(self.exp_num >= 5):
-#                    self.exp_num = 1
-#                    self.selected_vel += 1
-#                else:
-#                    self.exp_num += 1
-#            
-#            self.update_exit_dir()
-#            time.sleep(4)
-#            self.next_state = True
 
             if self.exp_num < 5:
                 self.exp_num += 1
@@ -143,6 +132,7 @@ class NodingNode(Node):
             else:
                 self.update_exit_dir()
                 self.next_state = True
+                time.sleep(3)
 
 
         if self.state == "acabo":
